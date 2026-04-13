@@ -75,9 +75,15 @@ class AuthController extends Controller
     public function register(RegisterUserRequest $request) {
         try {
             $request->validated();
-            $user = User::create($request->toArray());
-            $user->password = bcrypt($request->password);
-            $user->save();
+            $user = User::create([
+                "first_name"=> $request->first_name,
+                "last_name"=> $request->last_name,
+                "email"=> $request->email,
+                "login"=> $request->login,
+                "phone"=> $request->phone,
+                "role_id"=> 1,
+                "password"=> bcrypt($request->password)
+            ]);
 
             return (new UserResource($user))->response()->setStatusCode(CREATED);
         } catch (Exception $e) {
