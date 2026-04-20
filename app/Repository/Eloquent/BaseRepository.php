@@ -52,7 +52,7 @@ class BaseRepository implements RepositoryInterface
         $item->delete();  
     }
 
-    public function update(int $id, array $content)
+    public function update(int $id, array $attributes)
     {
         $item = $this->model->findOrFail($id);
         return $item->update($attributes);

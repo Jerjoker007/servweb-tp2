@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RentalController;
+use App\Http\Controllers\UserController;
 
 
 
@@ -22,6 +24,6 @@ Route::middleware('throttle:60,1')->group( function () {
     Route::middleware('auth:sanctum')->group( function () {
         Route::post('/reviews', 'App\Http\Controllers\ReviewController@store');
         Route::get('/me/rentals', 'App\Http\Controllers\RentalController@index');
-        Route::patch('/me', 'App\Http\Controllers\AuthController@update');
+        Route::patch('/me', 'App\Http\Controllers\UserController@update');
     });
 });

@@ -3,16 +3,16 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Http\Repository\RepositoryInterface;
-use App\Http\Repository\UserRepositoryInterface;
-use App\Http\Repository\AuthRepositoryInterface;
-use App\Http\Repository\EquipmentRepositoryInterface;
-use App\Http\Repository\ReviewRepositoryInterface;
-use App\Http\Repository\Eloquent\BaseRepository;
-use App\Http\Repository\Eloquent\UserRepository;
-use App\Http\Repository\Eloquent\AuthRepository;
-use App\Http\Repository\Eloquent\EquipmentRepository;
-use App\Http\Repository\Eloquent\ReviewRepository;
+use App\Repository\RepositoryInterface;
+use App\Repository\UserRepositoryInterface;
+use App\Repository\AuthRepositoryInterface;
+use App\Repository\EquipmentRepositoryInterface;
+use App\Repository\ReviewRepositoryInterface;
+use App\Repository\Eloquent\BaseRepository;
+use App\Repository\Eloquent\UserRepository;
+use App\Repository\Eloquent\AuthRepository;
+use App\Repository\Eloquent\EquipmentRepository;
+use App\Repository\Eloquent\ReviewRepository;
 
 class AppServiceProvider extends ServiceProvider
 {

@@ -10,6 +10,6 @@ class EquipmentRepository extends BaseRepository implements EquipmentRepositoryI
 {
     public function __construct()
     {
-        parent::__construct(Film::class);
+        parent::__construct(Equipment::class);
     }
 }
