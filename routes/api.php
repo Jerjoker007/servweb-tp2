@@ -22,6 +22,10 @@ Route::middleware('throttle:5,1')->group(function () {
 
 Route::middleware('throttle:60,1')->group( function () {
     Route::middleware('auth:sanctum')->group( function () {
+        Route::post('/equipment', 'App\Http\Controllers\EquipmentController@store');
+        Route::put('/equipment/{id}', 'App\Http\Controllers\EquipmentController@update');
+        Route::delete('/equipment/{id}', 'App\Http\Controllers\EquipmentController@destroy');
+
         Route::post('/reviews', 'App\Http\Controllers\ReviewController@store');
         Route::get('/me/rentals', 'App\Http\Controllers\RentalController@index');
         Route::patch('/me', 'App\Http\Controllers\UserController@update');
