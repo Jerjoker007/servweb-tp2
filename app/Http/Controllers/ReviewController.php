@@ -19,10 +19,6 @@ class ReviewController extends Controller
     public function store(CreateReviewRequest $request)
     {
         try{
-            if (!Auth::check()) {
-                abort(FORBIDDEN, 'Forbidden');
-            }
-
             $request->validated();
 
             $user = Auth::user();

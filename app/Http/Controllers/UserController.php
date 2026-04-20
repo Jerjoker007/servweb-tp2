@@ -19,10 +19,6 @@ class UserController extends Controller
 
     public function update(UpdateUserRequest $request) {
         try{
-            if (!Auth::check()) {
-                abort(FORBIDDEN, 'Forbidden');
-            }
-
             $request->validated();
             $user = Auth::user();
             $this->userRepository->update($user->id, [

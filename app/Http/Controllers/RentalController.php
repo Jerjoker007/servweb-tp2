@@ -18,10 +18,6 @@ class RentalController extends Controller
     public function index()
     {
         try {
-            if (!Auth::check()) {
-                abort(FORBIDDEN, 'Forbidden');
-            }
-
             $user = Auth::user();
 
             return response()->json($this->userRepository->getActiveRentals($user))->setStatusCode(OK);
