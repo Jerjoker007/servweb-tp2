@@ -17,3 +17,11 @@ Route::middleware('throttle:5,1')->group(function () {
         Route::post('/signout', 'App\Http\Controllers\AuthController@logout');
     });
 });
+
+Route::middleware('throttle:60,1')->group( function () {
+    Route::middleware('auth:sanctum')->group( function () {
+        Route::post('/reviews', 'App\Http\Controllers\ReviewController@store');
+        Route::get('/me/rentals', 'App\Http\Controllers\RentalController@index');
+        Route::patch('/me', 'App\Http\Controllers\AuthController@update');
+    });
+});
