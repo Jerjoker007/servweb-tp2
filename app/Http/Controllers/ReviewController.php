@@ -6,6 +6,8 @@ use App\Http\Requests\CreateReviewRequest;
 use App\Repository\ReviewRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
+use OpenApi\Attributes as OA;
+
 class ReviewController extends Controller
 {
     private ReviewRepositoryInterface $reviewRepository;
@@ -15,7 +17,60 @@ class ReviewController extends Controller
         $this->reviewRepository = $reviewRepository;
     }
 
+    #[OA\Post(
+        path: "/api/reviews",
+        summary: "Création d’un nouvel avis",
+        description: "La route est throttled à 60 requêtes par minute.",
+        tags: ["Reviews"],
+        security: [["sanctum" => []]],
+        requestBody:new OA\RequestBody(
+            required:true,
+            content: new OA\JsonContent(
+                required: ["rental_id", "rating", "comment"],
+                properties: [
+                    new OA\Property(property: "rental_id", type: "integer", example: 1),
+                    new OA\Property(property: "rating", type: "integer", example: 5),
+                    new OA\Property(property: "comment", type: "string", example: "Great rental experience!")
+                ]
+            )
+        ),
+        responses: [
+            new OA\Response(
+                response: 201, 
+                description: "Avis créé",
+                content: new OA\JsonContent(
+                    example: [
+                        "data" => [
+                            "rental_id" => 1,
+                            "rating" => 5,
+                            "comment" => "Great rental experience!"
+                        ]
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: 401, 
+                description: "Non authentifié",
+                content: new OA\JsonContent()
+            ),
+            new OA\Response(
+                response: 404, 
+                description: "Location non trouvée",
+                content: new OA\JsonContent()
+            ),
+            new OA\Response(
+                response: 409, 
+                description: "Conflit - Un avis existe déjà pour cette location",
+                content: new OA\JsonContent()
+            ),
+            new OA\Response(
+                response: 422, 
+                description: "Données invalides",
+                content: new OA\JsonContent()
+            ),
 
+        ]
+    )]
     public function store(CreateReviewRequest $request)
     {
         try{
