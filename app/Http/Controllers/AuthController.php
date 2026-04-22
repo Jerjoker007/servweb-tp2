@@ -11,14 +11,6 @@ use App\Http\Requests\LoginUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 
-//https://github.com/DarkaOnLine/L5-Swagger/wiki/Examples#laravel-sanctum
-#[OA\SecurityScheme(
-    securityScheme: "sanctum",
-    type: "apiKey",
-    description: "Entrer le token sous le format (Bearer TOKEN)",
-    name: "Authorization",
-    in: "header"
-)]
 class AuthController extends Controller
 {
     #[OA\Post(
@@ -69,6 +61,11 @@ class AuthController extends Controller
                         ]
                     ]
                 )
+            ),
+            new OA\Response(
+                response: 429, 
+                description: "Trop de requêtes",
+                content: new OA\JsonContent()
             )
         ]
     )]
@@ -117,6 +114,15 @@ class AuthController extends Controller
                 )
             ),
             new OA\Response(
+                response: 401, 
+                description: "Non authorisé",
+                content: new OA\JsonContent(
+                    example: [
+                        "message" => "Unauthorized"
+                    ]
+                )
+            ),
+            new OA\Response(
                 response: 422, 
                 description: "Données invalides",
                 content: new OA\JsonContent(
@@ -131,13 +137,9 @@ class AuthController extends Controller
                 )
             ),
             new OA\Response(
-                response: 401, 
-                description: "Non authorisé",
-                content: new OA\JsonContent(
-                    example: [
-                        "message" => "Unauthorized"
-                    ]
-                )
+                response: 429, 
+                description: "Trop de requêtes",
+                content: new OA\JsonContent()
             )
         ]
     )]
@@ -185,6 +187,11 @@ class AuthController extends Controller
                         "message" => "Unauthenticated."
                     ]
                 )
+            ),
+            new OA\Response(
+                response: 429, 
+                description: "Trop de requêtes",
+                content: new OA\JsonContent()
             )
         ]
     )]
@@ -222,6 +229,11 @@ class AuthController extends Controller
                         "message" => "Unauthenticated."
                     ]
                 )
+            ),
+            new OA\Response(
+                response: 429, 
+                description: "Trop de requêtes",
+                content: new OA\JsonContent()
             )
         ]
     )]
@@ -268,6 +280,11 @@ class AuthController extends Controller
                         "message" => "Unauthenticated."
                     ]
                 )
+            ),
+            new OA\Response(
+                response: 429, 
+                description: "Trop de requêtes",
+                content: new OA\JsonContent()
             )
         ]
     )]
