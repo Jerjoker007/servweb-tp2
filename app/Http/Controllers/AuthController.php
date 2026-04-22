@@ -6,6 +6,7 @@ use OpenApi\Attributes as OA;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Repository\AuthRepositoryInterface;
 use App\Http\Requests\RegisterUserRequest;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Resources\UserResource;
@@ -13,6 +14,13 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
+    private AuthRepositoryInterface $authRepository;
+
+    public function __construct(AuthRepositoryInterface $repository)
+    {
+        $this->authRepository = $repository;
+    }
+
     #[OA\Post(
         path: "/api/signup",
         summary: "Enregistrement d’un nouvel utilisateur",
@@ -72,7 +80,7 @@ class AuthController extends Controller
     public function register(RegisterUserRequest $request) {
         try {
             $request->validated();
-            $user = User::create([
+            $user = $this->authRepository->create([
                 "first_name"=> $request->first_name,
                 "last_name"=> $request->last_name,
                 "email"=> $request->email,

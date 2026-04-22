@@ -6,5 +6,13 @@ use Exception;
 
 class EquipmentInUseException extends Exception
 {
-    protected $message = 'Equipment is in used and cannot be deleted.';
+    public function status()
+    {
+        return CONFLICT;
+    }
+
+    public function message()
+    {
+        return 'Equipment is in used and cannot be deleted.';
+    }
 }

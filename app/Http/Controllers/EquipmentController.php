@@ -304,7 +304,7 @@ class EquipmentController extends Controller
         } catch (QueryException $e) {
             abort(NOT_FOUND, 'Invalid Id');
         } catch (EquipmentInUseException $e){
-            abort(CONFLICT, $e->getMessage());
+            abort($e->status(), $e->message());
         } catch (Exception $e) {
             abort(SERVER_ERROR, 'Server error');
         }
