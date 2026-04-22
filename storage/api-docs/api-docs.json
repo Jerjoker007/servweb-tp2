@@ -92,6 +92,14 @@
                                 }
                             }
                         }
+                    },
+                    "429": {
+                        "description": "Trop de requêtes",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
                     }
                 }
             }
@@ -141,6 +149,17 @@
                             }
                         }
                     },
+                    "401": {
+                        "description": "Non authorisé",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "Unauthorized"
+                                }
+                            }
+                        }
+                    },
                     "422": {
                         "description": "Données invalides",
                         "content": {
@@ -157,14 +176,11 @@
                             }
                         }
                     },
-                    "401": {
-                        "description": "Non authorisé",
+                    "429": {
+                        "description": "Trop de requêtes",
                         "content": {
                             "application/json": {
-                                "schema": {},
-                                "example": {
-                                    "message": "Unauthorized"
-                                }
+                                "schema": {}
                             }
                         }
                     }
@@ -199,6 +215,14 @@
                                 "example": {
                                     "message": "Unauthenticated."
                                 }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Trop de requêtes",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
                             }
                         }
                     }
@@ -238,6 +262,14 @@
                                 "example": {
                                     "message": "Unauthenticated."
                                 }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Trop de requêtes",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
                             }
                         }
                     }
@@ -285,6 +317,344 @@
                                 }
                             }
                         }
+                    },
+                    "429": {
+                        "description": "Trop de requêtes",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/equipment": {
+            "post": {
+                "tags": [
+                    "Equipment"
+                ],
+                "summary": "Enregistrement d’un nouvel équipement.",
+                "description": "La route est throttled à 60 requête par minute et nécessite être un admin.",
+                "operationId": "28c5d8c51afa89bb5b58cafcb6ce6020",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "description",
+                                    "daily_price",
+                                    "category_id"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Ski"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Ski alpin"
+                                    },
+                                    "daily_price": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": 10.99
+                                    },
+                                    "category_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Équipement créé",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "data": {
+                                        "name": "Ski",
+                                        "description": "Ski alpin",
+                                        "daily_price": 10.99,
+                                        "category_id": 1
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Non connecté",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "Unauthenticated."
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Non authorisé",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "Forbidden"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Données invalides",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "The name field is required.",
+                                    "errors": {
+                                        "name": [
+                                            "The name field is required."
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Trop de requêtes",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/equipment/{id}": {
+            "put": {
+                "tags": [
+                    "Equipment"
+                ],
+                "summary": "Changement d’un équipement.",
+                "description": "La route est throttled à 60 requête par minute et nécessite être un admin.",
+                "operationId": "eeb16faf22a74b63460867278b61644e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Equipment ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "description",
+                                    "daily_price",
+                                    "category_id"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Ski"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Ski alpin"
+                                    },
+                                    "daily_price": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": 10.99
+                                    },
+                                    "category_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Équipement créé",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "data": {
+                                        "name": "Ski",
+                                        "description": "Ski alpin",
+                                        "daily_price": 10.99,
+                                        "category_id": 1
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Non connecté",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "Unauthenticated."
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Non authorisé",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "Forbidden"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Équipement non trouvé",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "No query results for model [App\\Models\\Equipment] 50"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Données invalides",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "The name field is required.",
+                                    "errors": {
+                                        "name": [
+                                            "The name field is required."
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Trop de requêtes",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Equipment"
+                ],
+                "summary": "Supprimer un équipement.",
+                "description": "La route est throttled à 60 requête par minute et nécessite être un admin.",
+                "operationId": "9337ff7b74f071a99d2d2ea81f4617e4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Equipment ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "Réponse JSON par défaut.",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "Équipement supprimé"
+                    },
+                    "401": {
+                        "description": "Non connecté",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "Unauthenticated."
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Non authorisé",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "Forbidden"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Équipement non trouvé",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "No query results for model [App\\Models\\Equipment] 50"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Trop de requêtes",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
                     }
                 },
                 "security": [
@@ -309,6 +679,10 @@
         {
             "name": "Auth",
             "description": "Auth"
+        },
+        {
+            "name": "Equipment",
+            "description": "Equipment"
         }
     ]
 }
