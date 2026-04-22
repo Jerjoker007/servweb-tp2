@@ -28,7 +28,8 @@ class RegisterUserRequest extends FormRequest
             'email' => 'required | email:rfc,strict,filter | unique:users',
             'login' => 'required | unique:users',
             //https://laravel.com/docs/12.x/validation#validating-passwords
-            'password' => ['required', 'confirmed', Password::min(10)->letters()->numbers()]
+            'password' => ['required', 'confirmed', Password::min(10)->letters()->numbers()],
+            'phone' => 'required | regex:/^\d{3}\-\d{3}\-\d{4}$/'
         ];
     }
 }
