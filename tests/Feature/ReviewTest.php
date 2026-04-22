@@ -10,6 +10,7 @@ use App\Models\Rental;
 use App\Models\Role;
 use App\Models\Category;
 use App\Models\Equipment;
+use Laravel\Sanctum\Sanctum;
 
 class ReviewTest extends TestCase
 {
@@ -166,6 +167,32 @@ class ReviewTest extends TestCase
             'comment' => 'Great rental experience!',
         ]);
         $response->assertStatus(429);
+    }
+
+    public function test_review_forbidden()
+    {
+        $this->seed();
+
+        $role = Role::create(["name" => "user"]);
+        $user = User::factory()->create([
+            'first_name' => 'Joe',
+            'last_name' => 'Bob',
+            'email' => 'joe.bob@example.com',
+            'phone' => '1234567890',
+            'role_id' => $role->id,
+            'login' => 'joebob',
+            'password' => bcrypt('oldpassword123'),
+        ]);
+
+        Sanctum::actingAs($user, ['*']);
+
+        $response = $this->postJson('/api/reviews', [
+            'rental_id' => 1,
+            'rating' => 4,
+            'comment' => 'Great rental experience!',
+        ]);
+
+        $response->assertStatus(403);
     }
 
 }
