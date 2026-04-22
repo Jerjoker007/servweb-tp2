@@ -7,6 +7,8 @@ use App\Repository\ReviewRepositoryInterface;
 use App\Repository\Eloquent\BaseRepository;
 use App\Models\User;
 use App\Http\Requests\CreateReviewRequest;
+use App\Models\Rental;
+use App\Exceptions\NotUserRentalException;
 
 class ReviewRepository extends BaseRepository implements ReviewRepositoryInterface
 {
@@ -20,7 +22,11 @@ class ReviewRepository extends BaseRepository implements ReviewRepositoryInterfa
     {
         $rentalId = $request->input('rental_id');
 
-        $user->rentals()->findOrFail($rentalId);
+        Rental::findOrFail($rentalId);
+
+        if ($user->rentals()->where('rentals.id', $rentalId)->doesntExist()){
+            throw new NotUserRentalException();
+        }
 
         $alreadyReviewed = Review::where('rental_id', $rentalId)->exists();
 

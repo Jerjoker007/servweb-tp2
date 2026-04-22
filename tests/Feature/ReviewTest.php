@@ -118,7 +118,7 @@ class ReviewTest extends TestCase
             'rental_id' => 5,
             'rating' => 4,
             'comment' => 'Great rental experience!',
-        ])->assertStatus(404);
+        ])->assertStatus(422);
     }
 
     public function test_review_throttle()

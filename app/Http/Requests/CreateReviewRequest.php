@@ -23,7 +23,7 @@ class CreateReviewRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'rental_id' => 'required|integer',
+            'rental_id' => 'required|integer|exists:rentals,id',
             'rating' => 'required|integer|min:1|max:10',
             'comment' => 'required|string'
         ];
