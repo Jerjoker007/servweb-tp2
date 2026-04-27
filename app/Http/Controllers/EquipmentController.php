@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use OpenApi\Attributes as OA;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Equipment;
 use App\Repository\EquipmentRepositoryInterface;
 use App\Http\Requests\EquipmentRequest;
@@ -96,12 +95,7 @@ class EquipmentController extends Controller
     )]
     public function store(EquipmentRequest $request)
     {
-        try {
-            if (Auth::user()->role->name != 'admin')
-            {
-                abort(FORBIDDEN, "Forbidden");
-            }
-                
+        try {   
             $request->validated();
             $equipment = $this->equipmentRepository->create($request->toArray());
             return (new EquipmentResource($equipment))->response()->setStatusCode(CREATED);
@@ -203,12 +197,7 @@ class EquipmentController extends Controller
     )]
     public function update(EquipmentRequest $request, int $id)
     {
-        try {
-            if (Auth::user()->role->name != 'admin')
-            {
-                abort(FORBIDDEN, "Forbidden");
-            }
-                
+        try {                
             $request->validated();
             $equipment = $this->equipmentRepository->update($id, $request->toArray());
             return (new EquipmentResource($equipment))->response()->setStatusCode(OK);
@@ -293,16 +282,11 @@ class EquipmentController extends Controller
     public function destroy(int $id)
     {
         try {
-            if (Auth::user()->role->name != 'admin')
-            {
-                abort(FORBIDDEN, "Forbidden");
-            }
-
             $this->equipmentRepository->delete($id);
-            return response()->noContent();
+        	return response()->noContent();
         
         } catch (QueryException $e) {
-            abort(NOT_FOUND, 'Invalid Id');
+        	abort(NOT_FOUND, 'Invalid Id');
         } catch (EquipmentInUseException $e){
             abort($e->status(), $e->message());
         } catch (Exception $e) {
